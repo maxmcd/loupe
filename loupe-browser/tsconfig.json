@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "sourceMap": true,
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "strictNullChecks": true,
+      "experimentalDecorators": true,
+      "target": "es5",
+      "jsx": "react",
+      "lib": ["dom", "es6"]
+    },
+    "compileOnSave": false
+  }
