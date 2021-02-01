@@ -1,0 +1,14 @@
+{
+  "name": "loupe-shell",
+  "version": "0.1.0",
+  "description": "Share your terminal session with loupe",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^7.4.2"
+  }
+}
