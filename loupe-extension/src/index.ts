@@ -1,12 +1,14 @@
 import * as os from "os";
 import * as fs from "fs";
 import * as net from "net";
-export function start_socket() {
+export function startSocket() {
   const homedir = os.homedir();
   const loupeDir = homedir + "/.loupe";
 
   // Make loupe dir if it doesn't exist
-  if (!fs.existsSync(loupeDir)) fs.mkdirSync(loupeDir);
+  if (!fs.existsSync(loupeDir)) {
+    fs.mkdirSync(loupeDir);
+  }
 
   const srv = new net.Server();
   srv.listen(loupeDir + "/shared.sock", () => {
@@ -17,4 +19,4 @@ export function start_socket() {
   });
 }
 
-start_socket();
+startSocket();
