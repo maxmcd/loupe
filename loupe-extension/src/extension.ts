@@ -6,14 +6,12 @@ import * as net from "net";
 import * as os from "os";
 import * as WebSocket from "ws";
 
-class Session {
-  wss: WebSocket.Server;
+class WebSocketServer {
+  wss?: WebSocket.Server;
   sessions: Array<WebSocket> = [];
   running: boolean = false;
   disposables: Array<vscode.Disposable> = [];
-  constructor() {
-    this.wss = this.start();
-  }
+  constructor() {}
   startListeners() {
     this.disposables.push(
       vscode.window.onDidChangeTextEditorSelection((e) => {
@@ -34,7 +32,7 @@ class Session {
   }
   stop() {
     this.running = false;
-    this.wss.close();
+    this.wss?.close();
     this.sessions = [];
     this.disposables.forEach((e) => e.dispose());
     this.disposables = [];
@@ -44,7 +42,7 @@ class Session {
       port: 21456,
     });
     this.running = true;
-    this.wss.on("connection", this.connection);
+    this.wss.on("connection", this.connection.bind(this));
     this.startListeners();
     return this.wss;
   }
@@ -67,9 +65,11 @@ class Session {
     );
   }
   sendMessage(e: any, session?: WebSocket) {
+    console.log(e, this.sessions);
     const payload = JSON.stringify(e);
     // either send to all active sessions, or send to the passed session
     (session ? [session] : this.sessions).forEach((session) => {
+      console.log(session);
       session.send(payload);
     });
   }
@@ -83,11 +83,19 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   //   // Display a message box to the user
   //   vscode.window.showInformationMessage("Hello World from loupe!");
   // });
-  console.log("hellooo");
-  const myCommandId = "loupe.startStopLoupe";
+  console.log("Activated loupe");
+  const server = new WebSocketServer();
+  const commandID = "loupe.startStopLoupe";
+
   subscriptions.push(
-    vscode.commands.registerCommand(myCommandId, () => {
-      vscode.window.showInformationMessage(`You toggled me!`);
+    vscode.commands.registerCommand(commandID, () => {
+      if (server.running) {
+        vscode.window.showInformationMessage(`Stopping loupe session`);
+        server.stop();
+      } else {
+        vscode.window.showInformationMessage(`Starting loupe session`);
+        server.start();
+      }
     })
   );
   const myStatusBarItem = vscode.window.createStatusBarItem(
@@ -96,7 +104,7 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   );
   myStatusBarItem.text = "Loupe";
   myStatusBarItem.show();
-  myStatusBarItem.command = myCommandId;
+  myStatusBarItem.command = commandID;
   subscriptions.push(myStatusBarItem);
 
   // subscriptions.push(disposable);
