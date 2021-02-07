@@ -11,7 +11,7 @@ enum Time {
   Second = 1000,
   Minute = Second * 60,
 }
-
+console.log("a change")
 type TextDocumentChangeEvent = {
   activeEditorChange?: {
     languageId: string;

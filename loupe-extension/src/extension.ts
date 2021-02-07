@@ -11,7 +11,7 @@ class WebSocketServer {
   sessions: Array<WebSocket> = [];
   running: boolean = false;
   disposables: Array<vscode.Disposable> = [];
-  constructor() {}
+  constructor() { }
   startListeners() {
     this.disposables.push(
       vscode.window.onDidChangeTextEditorSelection((e) => {
@@ -36,6 +36,7 @@ class WebSocketServer {
     this.sessions = [];
     this.disposables.forEach((e) => e.dispose());
     this.disposables = [];
+    console.log("server stopped")
   }
   start(): WebSocket.Server {
     this.wss = new WebSocket.Server({
@@ -44,6 +45,7 @@ class WebSocketServer {
     this.running = true;
     this.wss.on("connection", this.connection.bind(this));
     this.startListeners();
+    console.log("loupe server started")
     return this.wss;
   }
   connection(ws: WebSocket) {
@@ -111,4 +113,4 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
