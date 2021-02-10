@@ -11,7 +11,6 @@ enum Time {
   Second = 1000,
   Minute = Second * 60,
 }
-console.log("a change")
 type TextDocumentChangeEvent = {
   activeEditorChange?: {
     languageId: string;
@@ -58,7 +57,8 @@ class Application {
     if (!terminalDiv) {
       throw Error("terminal textarea not found");
     }
-    this.terminal.open(terminalDiv);
+    // this.terminal.open(terminalDiv);
+
 
     const textarea = document.getElementById("code");
     if (!textarea) {
@@ -70,7 +70,7 @@ class Application {
       readOnly: true,
     });
     this.editor.setSize("100%", "100%");
-    this.hideCodeMirror();
+    // this.hideCodeMirror();
   }
   toggleTerminal() {
     this.terminal.element?.classList.toggle("hidden");

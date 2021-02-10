@@ -19,6 +19,13 @@ body {
     "Segoe UI Symbol";
 }
 
+
+.CodeMirror {
+  font-family: 'Roboto Mono', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
 .hidden {
   display: none;
 }
@@ -28,7 +35,7 @@ body {
   position: absolute;
   top: 0px;
   display: inline-block;
-  border: 1px solid white;
+  border: 1px solid black;
   padding: 1px 9px;
 }
 
@@ -42,7 +49,7 @@ body {
 }
 
 body {
-  background-color: #1e1e1e;
+  /* background-color: #1e1e1e; */
   color: #ddd;
 }
 .CodeMirror:not(.CodeMirror-focused) .CodeMirror-cursors {
@@ -125,7 +132,8 @@ body {
 }
 
 .cm-s-vscode-dark.CodeMirror {
-  background: #1e1e1e;
+  /* background: #1e1e1e; */
+  background: transparent;
   color: #e9e9e9;
 }
 .cm-s-vscode-dark .CodeMirror-cursor {
@@ -145,8 +153,9 @@ body {
 .cm-s-vscode-dark span.cm-builtin {
   color: #a9b7c6;
 }
+
 .cm-s-vscode-dark {
-  font-family: Consolas, "Courier New", monospace, serif;
+  /* font-family: Consolas, "Courier New", monospace, serif; */
 }
 .cm-s-vscode-dark .CodeMirror-matchingbracket {
   background-color: #3b514d;
@@ -154,7 +163,7 @@ body {
 }
 
 .CodeMirror-hints.vscode-dark {
-  font-family: Consolas, "Courier New", monospace;
+  /* font-family: Consolas, "Courier New", monospace; */
   color: #9c9e9e;
   background-color: #3b3e3f !important;
 }
