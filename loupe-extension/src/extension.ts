@@ -11,7 +11,7 @@ class WebSocketServer {
   sessions: Array<WebSocket> = [];
   running: boolean = false;
   disposables: Array<vscode.Disposable> = [];
-  constructor() { }
+  constructor() {}
   startListeners() {
     this.disposables.push(
       vscode.window.onDidChangeTextEditorSelection((e) => {
@@ -19,7 +19,18 @@ class WebSocketServer {
       })
     );
     this.disposables.push(
+      vscode.window.onDidChangeTextEditorOptions((e) => {
+        console.log("onDidChangeTextEditorOptions", e);
+      })
+    );
+    this.disposables.push(
+      vscode.window.onDidChangeActiveColorTheme((e) => {
+        console.log("onDidChangeActiveColorTheme", e);
+      })
+    );
+    this.disposables.push(
       vscode.window.onDidChangeActiveTextEditor((e) => {
+        console.log("active editor", e);
         // TODO: e can be undefined if focus changes to nothing, what do then?
         this.sendDocument(e);
       })
@@ -36,7 +47,7 @@ class WebSocketServer {
     this.sessions = [];
     this.disposables.forEach((e) => e.dispose());
     this.disposables = [];
-    console.log("server stopped")
+    console.log("server stopped");
   }
   start(): WebSocket.Server {
     this.wss = new WebSocket.Server({
@@ -45,7 +56,7 @@ class WebSocketServer {
     this.running = true;
     this.wss.on("connection", this.connection.bind(this));
     this.startListeners();
-    console.log("loupe server started")
+    console.log("loupe server started");
     return this.wss;
   }
   connection(ws: WebSocket) {
@@ -67,11 +78,10 @@ class WebSocketServer {
     );
   }
   sendMessage(e: any, session?: WebSocket) {
-    console.log(e, this.sessions);
+    console.log("sendMessage", e, this.sessions);
     const payload = JSON.stringify(e);
     // either send to all active sessions, or send to the passed session
     (session ? [session] : this.sessions).forEach((session) => {
-      console.log(session);
       session.send(payload);
     });
   }
@@ -113,4 +123,4 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() { }
+export function deactivate() {}
