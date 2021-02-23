@@ -1,126 +1,6 @@
 import CodeMirror from "codemirror";
-import "codemirror/mode/apl/apl";
-import "codemirror/mode/asciiarmor/asciiarmor";
-import "codemirror/mode/asn.1/asn.1";
-import "codemirror/mode/asterisk/asterisk";
-import "codemirror/mode/brainfuck/brainfuck";
-import "codemirror/mode/clike/clike";
-import "codemirror/mode/clojure/clojure";
-import "codemirror/mode/cmake/cmake";
-import "codemirror/mode/cobol/cobol";
-import "codemirror/mode/coffeescript/coffeescript";
-import "codemirror/mode/commonlisp/commonlisp";
-import "codemirror/mode/crystal/crystal";
-import "codemirror/mode/css/css";
-import "codemirror/mode/cypher/cypher";
-import "codemirror/mode/d/d";
-import "codemirror/mode/dart/dart";
-import "codemirror/mode/diff/diff";
-import "codemirror/mode/django/django";
-import "codemirror/mode/dockerfile/dockerfile";
-import "codemirror/mode/dtd/dtd";
-import "codemirror/mode/dylan/dylan";
-import "codemirror/mode/ebnf/ebnf";
-import "codemirror/mode/ecl/ecl";
-import "codemirror/mode/eiffel/eiffel";
-import "codemirror/mode/elm/elm";
-import "codemirror/mode/erlang/erlang";
-import "codemirror/mode/factor/factor";
-import "codemirror/mode/fcl/fcl";
-import "codemirror/mode/forth/forth";
-import "codemirror/mode/fortran/fortran";
-import "codemirror/mode/gas/gas";
-import "codemirror/mode/gfm/gfm";
-import "codemirror/mode/gherkin/gherkin";
-import "codemirror/mode/go/go";
-import "codemirror/mode/groovy/groovy";
-import "codemirror/mode/haml/haml";
-import "codemirror/mode/handlebars/handlebars";
-import "codemirror/mode/haskell/haskell";
-import "codemirror/mode/haskell-literate/haskell-literate";
-import "codemirror/mode/haxe/haxe";
-import "codemirror/mode/htmlembedded/htmlembedded";
-import "codemirror/mode/htmlmixed/htmlmixed";
-import "codemirror/mode/http/http";
-import "codemirror/mode/idl/idl";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/jinja2/jinja2";
-import "codemirror/mode/jsx/jsx";
-import "codemirror/mode/julia/julia";
-import "codemirror/mode/livescript/livescript";
-import "codemirror/mode/lua/lua";
-import "codemirror/mode/markdown/markdown";
-import "codemirror/mode/mathematica/mathematica";
-import "codemirror/mode/mbox/mbox";
-import "codemirror/mode/mirc/mirc";
-import "codemirror/mode/mllike/mllike";
-import "codemirror/mode/modelica/modelica";
-import "codemirror/mode/mscgen/mscgen";
-import "codemirror/mode/mumps/mumps";
-import "codemirror/mode/nginx/nginx";
-import "codemirror/mode/nsis/nsis";
-import "codemirror/mode/ntriples/ntriples";
-import "codemirror/mode/octave/octave";
-import "codemirror/mode/oz/oz";
-import "codemirror/mode/pascal/pascal";
-import "codemirror/mode/pegjs/pegjs";
-import "codemirror/mode/perl/perl";
-import "codemirror/mode/php/php";
-import "codemirror/mode/pig/pig";
-import "codemirror/mode/powershell/powershell";
-import "codemirror/mode/properties/properties";
-import "codemirror/mode/protobuf/protobuf";
-import "codemirror/mode/pug/pug";
-import "codemirror/mode/puppet/puppet";
-import "codemirror/mode/python/python";
-import "codemirror/mode/q/q";
-import "codemirror/mode/r/r";
-import "codemirror/mode/rpm/rpm";
-import "codemirror/mode/rst/rst";
-import "codemirror/mode/ruby/ruby";
-import "codemirror/mode/rust/rust";
-import "codemirror/mode/sas/sas";
-import "codemirror/mode/sass/sass";
-import "codemirror/mode/scheme/scheme";
-import "codemirror/mode/shell/shell";
-import "codemirror/mode/sieve/sieve";
-import "codemirror/mode/slim/slim";
-import "codemirror/mode/smalltalk/smalltalk";
-import "codemirror/mode/smarty/smarty";
-import "codemirror/mode/solr/solr";
-import "codemirror/mode/soy/soy";
-import "codemirror/mode/sparql/sparql";
-import "codemirror/mode/spreadsheet/spreadsheet";
-import "codemirror/mode/sql/sql";
-import "codemirror/mode/stex/stex";
-import "codemirror/mode/stylus/stylus";
-import "codemirror/mode/swift/swift";
-import "codemirror/mode/tcl/tcl";
-import "codemirror/mode/textile/textile";
-import "codemirror/mode/tiddlywiki/tiddlywiki";
-import "codemirror/mode/tiki/tiki";
-import "codemirror/mode/toml/toml";
-import "codemirror/mode/tornado/tornado";
-import "codemirror/mode/troff/troff";
-import "codemirror/mode/ttcn/ttcn";
-import "codemirror/mode/ttcn-cfg/ttcn-cfg";
-import "codemirror/mode/turtle/turtle";
-import "codemirror/mode/twig/twig";
-import "codemirror/mode/vb/vb";
-import "codemirror/mode/vbscript/vbscript";
-import "codemirror/mode/velocity/velocity";
-import "codemirror/mode/verilog/verilog";
-import "codemirror/mode/vhdl/vhdl";
-import "codemirror/mode/vue/vue";
-import "codemirror/mode/wast/wast";
-import "codemirror/mode/webidl/webidl";
-import "codemirror/mode/xml/xml";
-import "codemirror/mode/xquery/xquery";
-import "codemirror/mode/yacas/yacas";
-import "codemirror/mode/yaml/yaml";
-import "codemirror/mode/yaml-frontmatter/yaml-frontmatter";
-import "codemirror/mode/z80/z80";
-
+import "codemirror/addon/scroll/simplescrollbars";
+import "./syntax";
 import { Terminal } from "xterm";
 type Range = {
   line: number;
@@ -132,6 +12,7 @@ enum Time {
   Minute = Second * 60,
 }
 type TextDocumentChangeEvent = {
+  terminal: { id: number; stdin: string; stdout: string };
   activeEditorChange?: {
     languageId: string;
     text?: string;
@@ -170,7 +51,8 @@ type TextDocumentChangeEvent = {
 function debounce(func: () => void, wait: number, immediate?: boolean) {
   var timeout: number | undefined;
   return function () {
-    var context = this, args = arguments;
+    var context = this,
+      args = arguments;
     var later = function () {
       timeout = undefined;
       if (!immediate) func.apply(context, args);
@@ -180,19 +62,24 @@ function debounce(func: () => void, wait: number, immediate?: boolean) {
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
-};
+}
 
 class Application {
   websocket?: WebSocket;
   editor: CodeMirror.EditorFromTextArea;
   terminal: Terminal;
+  languageId?: string;
   constructor() {
-    this.terminal = new Terminal();
+    this.terminal = new Terminal({
+      theme: {
+        background: "#1e1e1e",
+      },
+    });
     const terminalDiv = document.getElementById("terminal");
     if (!terminalDiv) {
       throw Error("terminal textarea not found");
     }
-    // this.terminal.open(terminalDiv);
+    this.terminal.open(terminalDiv);
 
     const textarea = document.getElementById("code");
     if (!textarea) {
@@ -202,25 +89,39 @@ class Application {
       lineNumbers: true,
       theme: "vscode-dark",
       readOnly: true,
+      scrollbarStyle: "null",
     });
-    // this.editor.setSize("100%", "100%");
-    // this.hideCodeMirror();
+
+    this.hideCodeMirror();
   }
-  toggleTerminal() {
-    this.terminal.element?.classList.toggle("hidden");
+
+  _hideElement = (e: HTMLElement | null) => e?.classList.add("hidden");
+  _showElement = (e: HTMLElement | null) => e?.classList.remove("hidden");
+  _toggleElement = (e: HTMLElement | null) => e?.classList.toggle("hidden");
+  get editorElement() {
+    return this.editor.getWrapperElement();
   }
-  hideCodeMirror() {
-    this.editor.getWrapperElement().classList.add("hidden");
+  get loadingElement() {
+    return document.getElementById("loading");
   }
-  toggleCodeMirror() {
-    this.editor.getWrapperElement().classList.toggle("hidden");
+  get terminalElement() {
+    return this.terminal.element || null;
   }
-  hideLoading() {
-    document.getElementById("loading")?.classList.add("hidden");
-  }
+  hideCodeMirror = () => this._hideElement(this.editorElement);
+  showCodeMirror = () => this._showElement(this.editorElement);
+  toggleCodeMirror = () => this._toggleElement(this.editorElement);
+
+  hideLoading = () => this._hideElement(this.loadingElement);
   showLoading() {
-    document.getElementById("loading")?.classList.remove("hidden");
+    this.hideCodeMirror();
+    this.hideTerminal();
+    this._showElement(this.loadingElement);
   }
+
+  toggleTerminal = () => this._toggleElement(this.terminalElement);
+  hideTerminal = () => this._hideElement(this.terminalElement);
+  showTerminal = () => this._showElement(this.terminalElement);
+
   connect() {
     console.log("Attempting to connect to localhost:21456");
     this.websocket = new WebSocket("ws://localhost:21456/ws");
@@ -252,32 +153,61 @@ class Application {
       case "jsonc":
         lang = "application/json";
     }
-    this.editor.setOption("mode", lang);
+    if (lang !== this.languageId) {
+      this.editor.setOption("mode", lang);
+    }
+    this.languageId = lang;
   };
   onmessage = (m) => {
     console.log(m.data);
     let event = <TextDocumentChangeEvent>JSON.parse(m.data);
 
-    (event.selections || []).forEach((s) => {
+    let fileChanged = false;
+    if (event.activeEditorChange) {
+      if (event.activeEditorChange.text !== undefined) {
+        this.editor.getDoc().setValue(event.activeEditorChange.text);
+        fileChanged = true;
+      }
+      this.setSyntaxHighlighting(event.activeEditorChange.languageId);
+    }
+    if (event.terminal) {
+      this.terminal.write(event.terminal.stdout);
+    }
+    if (event.selections && event.selections.length > 0) {
+      // ignore multi-cursor edits for now
+      const s = event.selections[0];
       const lineHeight = 5;
       let t = this.editor.charCoords({ line: s.start.line, ch: 0 }, "local")
         .top;
       let middleHeight = this.editor.getScrollerElement().offsetHeight / 2;
       // this.editor.scrollTo({ left: null, top: t - middleHeight - lineHeight, behavior: "smooth ");
-      this.editor.setCursor({ line: s.start.line, ch: s.start.character }, undefined, { scroll: false });
-      // document.querySelector(".CodeMirror-scroll")?.scrollTo({ top: t - middleHeight - lineHeight, left: undefined, behavior: "smooth" })
+      this.editor.setCursor(
+        { line: s.start.line, ch: s.start.character },
+        undefined,
+        { scroll: false }
+      );
 
-      debounce(() => {
-        // maybe see how editors handle this?
-        // only scroll if it's out of view?
-        document.querySelector(".CodeMirror-scroll")?.scrollTo({ top: t - middleHeight - lineHeight, left: undefined, behavior: "smooth" })
-      }, 10)()
-    });
-    if (event.activeEditorChange) {
-      if (event.activeEditorChange.text !== undefined) {
-        this.editor.getDoc().setValue(event.activeEditorChange.text);
-      }
-      this.setSyntaxHighlighting(event.activeEditorChange.languageId);
+      // Set all of the selections, the first selection (the one we use for the
+      // cursor) will be the primary. The rest are good for multi-select.
+      //
+      // when doing multi-select vscode will follow the last selection, maybe
+      // make that primary?
+      this.editor.setSelections(
+        event.selections?.map((s) => ({
+          anchor: { line: s.start.line, ch: s.start.character },
+          head: { line: s.end.line, ch: s.end.character },
+        }))
+      );
+
+      document.querySelector(".CodeMirror-scroll")?.scrollTo({
+        top: t - middleHeight - lineHeight,
+        left: undefined,
+        // jump right to the line when changing files
+        behavior: fileChanged ? undefined : "smooth",
+      });
+
+      // debounce(() => {
+      // }, 10)()
     }
     if (event.document) {
       this.setSyntaxHighlighting(event.document.languageId);
@@ -301,40 +231,10 @@ class Application {
   };
   onopen() {
     this.hideLoading();
+    this.showTerminal();
     console.log("websocket connected!");
-  }
-}
-
-class DebugPane {
-  node: Element;
-  constructor(app: Application) {
-    let elem = document.getElementsByClassName("debug-pane").item(0);
-    if (!elem) {
-      throw Error("No debug pane class found");
-    }
-    this.node = elem;
-
-    this.node.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.node.querySelector(".links")?.classList.toggle("hidden");
-    });
-    this.node
-      .querySelector(".toggle-editor")
-      ?.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.cancelBubble = true;
-        app.toggleCodeMirror();
-      });
-    this.node
-      .querySelector(".toggle-terminal")
-      ?.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.cancelBubble = true;
-        app.toggleTerminal();
-      });
   }
 }
 
 const app = new Application();
 app.connect();
-new DebugPane(app);

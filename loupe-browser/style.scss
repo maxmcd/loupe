@@ -9,12 +9,15 @@ body {
   margin-top: 1em;
   text-align: center;
 }
-// https://uigradients.com/#Lunada
+
+@import "node_modules/codemirror/addon/scroll/simplescrollbars";
+
 body {
-  background: #5433FF;  
-  background: -webkit-linear-gradient(to right, #A5FECB, #20BDFF, #5433FF);  
-  background: linear-gradient(to right, #A5FECB, #20BDFF, #5433FF); 
-  
+  // https://uigradients.com/#Lunada
+  background: #5433ff;
+  background: -webkit-linear-gradient(to right, #a5fecb, #20bdff, #5433ff);
+  background: linear-gradient(to right, #a5fecb, #20bdff, #5433ff);
+
   letter-spacing: 0.01rem;
   line-height: 1.8; /* Globally adjust line height */
   font-size: 1rem;
@@ -25,22 +28,39 @@ body {
   overflow: hidden;
 }
 
+$background: #1e1e1e;
 $margin-top: 50px;
-.CodeMirror {
-  font-family: 'Roboto Mono', monospace;
-  height: calc(100% - #{$margin-top*2} - #{10px*2});
+.container {
+  font-family: "Roboto Mono", monospace;
+  background: $background;
+  height: calc(100% - #{$margin-top * 2} - #{10px * 2});
   width: auto;
   margin: $margin-top 80px;
-  padding: 0px 10px 15px 15px;
+  padding: 0px 10px 0px 15px;
   border-radius: 10px;
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+#terminal {
+  padding-top: 15px;
+}
+.xterm .xterm-viewport {
+  overflow-y: hidden;
+}
+#loading {
+  padding: 50px;
+  font-size: 1.5rem;
+}
+
+.CodeMirror {
+  height: calc(100% - 15px);
+  width: 100%;
+  padding-bottom: 15px;
 }
 
 .CodeMirror-sizer {
   margin-top: 10px;
 }
-
-$background: #1e1e1e;
 
 .cm-s-vscode-dark.CodeMirror {
   background: $background;
@@ -48,7 +68,7 @@ $background: #1e1e1e;
   color: #e9e9e9;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
 
 .hidden {
   display: none;
@@ -154,9 +174,6 @@ body {
 .cm-s-vscode-dark span.cm-bracket {
   color: #808080;
 }
-
-
-
 
 .cm-s-vscode-dark .CodeMirror-cursor {
   border-left: 1px solid #bebebe;
