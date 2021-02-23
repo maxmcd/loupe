@@ -1,16 +1,21 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+	"log"
+	"os"
+	"os/exec"
 )
 
 func main() {
-	fmt.Println("hello")
-	fmt.Println(errors.New("hello").Error())
-}
+	fmt.Println(os.Getenv("SHELL"))
 
-type Foo struct {
-	thing int
-	thang string
+	cmd := exec.Command("bash")
+	cmd.Stdin = os.Stdin
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
+
+	if err := cmd.Run(); err != nil {
+		log.Fatal(err)
+	}
 }

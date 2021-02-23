@@ -1,20 +1,23 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css" />
-    <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="debug-pane">
-      <div class="cog">x</div>
-      <div class="links hidden">
-        <a href="#" class="toggle-editor">toggle editor</a>
-        <a href="#" class="toggle-terminal">toggle terminal</a>
-      </div>
+
+<head>
+  <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css" />
+  <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+  <link rel="stylesheet" href="style.scss">
+</head>
+
+<body>
+  <div class="debug-pane">
+    <div class="cog">x</div>
+    <div class="links hidden">
+      <a href="#" class="toggle-editor">toggle editor</a>
+      <a href="#" class="toggle-terminal">toggle terminal</a>
     </div>
-    <div id="loading">trying to connect...</div>
-    <textarea id="code" name="code">asdf</textarea>
-    <div id="terminal"></div>
-    <script src="./index.ts"></script>
-  </body>
+  </div>
+  <div id="loading">trying to connect...</div>
+  <textarea id="code" name="code">asdf</textarea>
+  <div id="terminal"></div>
+  <script src="./index.ts"></script>
+</body>
+
 </html>

@@ -167,6 +167,21 @@ type TextDocumentChangeEvent = {
   }>;
 };
 
+function debounce(func: () => void, wait: number, immediate?: boolean) {
+  var timeout: number | undefined;
+  return function () {
+    var context = this, args = arguments;
+    var later = function () {
+      timeout = undefined;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+};
+
 class Application {
   websocket?: WebSocket;
   editor: CodeMirror.EditorFromTextArea;
@@ -188,7 +203,7 @@ class Application {
       theme: "vscode-dark",
       readOnly: true,
     });
-    this.editor.setSize("100%", "100%");
+    // this.editor.setSize("100%", "100%");
     // this.hideCodeMirror();
   }
   toggleTerminal() {
@@ -228,6 +243,8 @@ class Application {
       lang = "text/typescript";
     }
     switch (lang) {
+      case "scss":
+        lang = "text/x-scss";
       case "typescript":
         lang = "text/typescript";
       case "json":
@@ -246,8 +263,15 @@ class Application {
       let t = this.editor.charCoords({ line: s.start.line, ch: 0 }, "local")
         .top;
       let middleHeight = this.editor.getScrollerElement().offsetHeight / 2;
-      this.editor.scrollTo(null, t - middleHeight - lineHeight);
-      this.editor.setCursor({ line: s.start.line, ch: s.start.character });
+      // this.editor.scrollTo({ left: null, top: t - middleHeight - lineHeight, behavior: "smooth ");
+      this.editor.setCursor({ line: s.start.line, ch: s.start.character }, undefined, { scroll: false });
+      // document.querySelector(".CodeMirror-scroll")?.scrollTo({ top: t - middleHeight - lineHeight, left: undefined, behavior: "smooth" })
+
+      debounce(() => {
+        // maybe see how editors handle this?
+        // only scroll if it's out of view?
+        document.querySelector(".CodeMirror-scroll")?.scrollTo({ top: t - middleHeight - lineHeight, left: undefined, behavior: "smooth" })
+      }, 10)()
     });
     if (event.activeEditorChange) {
       if (event.activeEditorChange.text !== undefined) {
