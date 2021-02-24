@@ -12,7 +12,13 @@ enum Time {
   Minute = Second * 60,
 }
 type TextDocumentChangeEvent = {
-  terminal: { id: number; stdin: string; stdout: string };
+  terminal: {
+    id: number;
+    data?: string;
+    resize?: { columns: number; rows: number };
+    exit?: boolean;
+    stdin?: boolean;
+  };
   activeEditorChange?: {
     languageId: string;
     text?: string;
@@ -171,9 +177,21 @@ class Application {
       this.setSyntaxHighlighting(event.activeEditorChange.languageId);
     }
     if (event.terminal) {
-      this.terminal.write(event.terminal.stdout);
+      if (event.terminal.data) this.terminal.write(event.terminal.data);
+      if (event.terminal.resize)
+        this.terminal.resize(
+          event.terminal.resize.columns,
+          event.terminal.resize.rows
+        );
+      if (event.terminal.exit) this.terminal.clear();
+      if (event.terminal.stdin) {
+        this.showTerminal();
+        this.hideCodeMirror();
+      }
     }
     if (event.selections && event.selections.length > 0) {
+      this.showCodeMirror();
+      this.hideTerminal();
       // ignore multi-cursor edits for now
       const s = event.selections[0];
       const lineHeight = 5;

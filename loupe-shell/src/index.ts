@@ -17,20 +17,43 @@ let ws = new WebSocket("ws://localhost:21456/terminal");
 ws.onerror = (e) => {
   console.log(e);
 };
-console.log("Spawning new shell");
-process.stdin.setRawMode(true);
-let subprocess = pty.spawn(shell, [], {
-  cwd: "/home/maxm/go/src/github.com/maxmcd/loupe",
-});
-process.stdin.on("data", (e: Buffer) => {
-  subprocess.write(e.toString());
-  ws.send(JSON.stringify({ stdin: e.toString() }));
-});
-subprocess.onData((e) => {
-  process.stdout.write(e);
-  ws.send(JSON.stringify({ stdout: e }));
-});
-subprocess.onExit(({ exitCode }) => {
-  process.stdin.setRawMode(false);
-  process.exit(exitCode);
-});
+ws.onopen = () => {
+  run();
+};
+
+const sendSize = () => {
+  ws.send(
+    JSON.stringify({
+      resize: { rows: process.stdout.rows, columns: process.stdout.columns },
+    })
+  );
+};
+const run = () => {
+  console.log("Spawning new shell");
+  process.stdin.setRawMode(true);
+  let subprocess = pty.spawn(shell, [], {
+    cols: process.stdout.columns,
+    rows: process.stdout.rows,
+    cwd: "/home/maxm/go/src/github.com/maxmcd/loupe",
+  });
+  sendSize();
+  process.stdout.on("resize", () => {
+    sendSize();
+    subprocess.resize(process.stdout.columns, process.stdout.rows);
+  });
+  process.stdin.on("data", (e: Buffer) => {
+    subprocess.write(e.toString());
+    ws.send(JSON.stringify({ stdin: true }));
+  });
+
+  subprocess.onData((e) => {
+    process.stdout.write(e);
+    ws.send(JSON.stringify({ data: e }));
+  });
+
+  subprocess.onExit(({ exitCode }) => {
+    process.stdin.setRawMode(false);
+    ws.close();
+    process.exit(exitCode);
+  });
+};

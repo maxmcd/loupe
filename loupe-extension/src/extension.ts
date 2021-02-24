@@ -96,7 +96,11 @@ class WebSocketServer {
   };
   terminalConnection = (ws: WebSocket) => {
     ws.onmessage = (msg) => {
-      this.sendPayload(msg.data);
+      const payload = JSON.parse(msg.data.toString());
+      this.sendMessage({ terminal: payload });
+    };
+    ws.onclose = (msg) => {
+      this.sendMessage({ terminal: { exit: true } });
     };
   };
   sendDocument(e?: vscode.TextEditor, session?: WebSocket) {
