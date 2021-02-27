@@ -7,6 +7,13 @@ type Range = {
   character: number;
 };
 
+const _hide = (e: Element | null) => {
+  e?.classList.add("hidden");
+};
+const _show = (e: Element | null) => {
+  e?.classList.remove("hidden");
+};
+
 enum Time {
   Second = 1000,
   Minute = Second * 60,
@@ -54,43 +61,67 @@ type TextDocumentChangeEvent = {
   }>;
 };
 
-function debounce(func: () => void, wait: number, immediate?: boolean) {
-  var timeout: number | undefined;
+function throttle(func: () => void, minimumPause: number) {
+  let last: number | undefined;
   return function () {
-    var context = this,
-      args = arguments;
-    var later = function () {
-      timeout = undefined;
-      if (!immediate) func.apply(context, args);
-    };
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
+    const now = performance.now()
+    // only call the function it we haven't called it within the
+    // last minimumPause milliseconds
+    if (!last || (last && now - last > minimumPause)) {
+      last = now;
+      func()
+    }
+    // don't call the function this time
   };
 }
 
-class Application {
-  websocket?: WebSocket;
-  editor: CodeMirror.EditorFromTextArea;
+let terminalCount = 0;
+
+class TerminalContainer {
   terminal: Terminal;
-  languageId?: string;
-  constructor() {
+  terminalDiv: Element;
+  constructor(container: Element | null) {
+    if (container == null) {
+      throw new Error("containr can't be null");
+    }
+    this.terminalDiv = document.createElement("div")
+    this.terminalDiv.classList.add("terminal")
+    this.terminalDiv.attributes.setNamedItem
+    container.append(this.terminalDiv)
+    this.terminalDiv.setAttribute("term-id", String(terminalCount))
     this.terminal = new Terminal({
       theme: {
         background: "#1e1e1e",
       },
     });
-    const terminalDiv = document.getElementById("terminal");
-    if (!terminalDiv) {
-      throw Error("terminal textarea not found");
-    }
-    this.terminal.open(terminalDiv);
+    this.terminal.open(<HTMLElement>this.terminalDiv)
+  }
+  hide = () => {
+    _hide(this.terminalDiv)
+  }
+  write = (data: string | Uint8Array) => {
+    this.terminal.write(data)
+  }
+  destroy = () => {
+    this.terminal.dispose()
+    this.terminalDiv.remove()
+  }
+  show = () => {
+    _show(this.terminalDiv)
+  }
+}
 
+class Application {
+  websocket?: WebSocket;
+  editor: CodeMirror.EditorFromTextArea;
+  terminals: Map<number, TerminalContainer>;
+  languageId?: string;
+  constructor() {
     const textarea = document.getElementById("code");
     if (!textarea) {
       throw Error("code textarea not found");
     }
+    this.terminals = new Map();
     this.editor = CodeMirror.fromTextArea(<HTMLTextAreaElement>textarea, {
       lineNumbers: true,
       theme: "vscode-dark",
@@ -108,20 +139,12 @@ class Application {
   _toggleHidden = (e: Element | null, hide?: boolean) => {
     e?.classList.toggle("hidden");
   };
-  _hide = (e: Element | null) => {
-    e?.classList.add("hidden");
-  };
-  _show = (e: Element | null) => {
-    e?.classList.remove("hidden");
-  };
+
   get editorElement() {
     return this.editor.getWrapperElement();
   }
   get loadingElement() {
     return document.getElementById("loading");
-  }
-  get terminalElement() {
-    return this.terminal.element || null;
   }
   get containerElement() {
     return document.querySelector(".container");
@@ -135,21 +158,27 @@ class Application {
     this._addClass(this.containerElement, "resizeContainer");
   };
   showCodeMirror = () => {
-    this._hide(this.loadingElement);
-    this._show(this.editorElement);
-    this._hide(this.terminalElement);
+    _hide(this.loadingElement);
+    _show(this.editorElement);
+    this.hideAllTerminals()
     this.fullscreenMode();
   };
-  showTerminal = () => {
-    this._hide(this.loadingElement);
-    this._hide(this.editorElement);
-    this._show(this.terminalElement);
+  showTerminal = (id: number) => {
+    _hide(this.loadingElement);
+    _hide(this.editorElement);
+    this.hideAllTerminals()
+    this.terminals.get(id)?.show();
     this.resizeMode();
   };
+  hideAllTerminals = () => {
+    this.terminals.forEach((term, id) => {
+      term.hide()
+    })
+  }
   showLoading = () => {
-    this._hide(this.editorElement);
-    this._hide(this.terminalElement);
-    this._show(this.loadingElement);
+    _hide(this.editorElement);
+    this.hideAllTerminals()
+    _show(this.loadingElement);
     this.resizeMode();
   };
   connect() {
@@ -174,6 +203,8 @@ class Application {
       lang = "text/typescript";
     }
     switch (lang) {
+      case "html":
+        lang = "text/html";
       case "scss":
         lang = "text/x-scss";
       case "typescript":
@@ -201,15 +232,23 @@ class Application {
       this.setSyntaxHighlighting(event.activeEditorChange.languageId);
     }
     if (event.terminal) {
-      if (event.terminal.data) this.terminal.write(event.terminal.data);
+      const id = event.terminal.id
+      if (!this.terminals.has(id)) {
+        this.terminals.set(id, new TerminalContainer(this.containerElement))
+      }
+      const term = this.terminals.get(id)
+      if (event.terminal.data) term?.write(event.terminal.data);
       if (event.terminal.resize)
-        this.terminal.resize(
+        term?.terminal.resize(
           event.terminal.resize.columns,
           event.terminal.resize.rows
         );
-      if (event.terminal.exit) this.terminal.clear();
+      if (event.terminal.exit) {
+        term?.destroy()
+        this.terminals.delete(id)
+      };
       if (event.terminal.stdin) {
-        this.showTerminal();
+        this.showTerminal(id);
       }
     }
     if (event.selections && event.selections.length > 0) {

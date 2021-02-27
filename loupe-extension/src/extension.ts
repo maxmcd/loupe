@@ -5,6 +5,9 @@ import * as WebSocket from "ws";
 import * as http from "http";
 import * as url from "url";
 import * as net from "net";
+
+
+let terminalCount = 0;
 class WebSocketServer {
   wssClients?: WebSocket.Server;
   wssTerminal?: WebSocket.Server;
@@ -13,7 +16,7 @@ class WebSocketServer {
   running: boolean = false;
   disposables: Array<vscode.Disposable> = [];
   document?: string;
-  constructor() {}
+  constructor() { }
   startListeners() {
     this.disposables.push(
       vscode.window.onDidChangeTextEditorSelection((e) => {
@@ -95,12 +98,15 @@ class WebSocketServer {
     this.sendDocument(vscode.window.activeTextEditor, ws);
   };
   terminalConnection = (ws: WebSocket) => {
+    const id = terminalCount;
+    ws.send(JSON.stringify({ "id": id }))
+    terminalCount++
     ws.onmessage = (msg) => {
       const payload = JSON.parse(msg.data.toString());
-      this.sendMessage({ terminal: payload });
+      this.sendMessage({ terminal: { id: id, ...payload } });
     };
     ws.onclose = (msg) => {
-      this.sendMessage({ terminal: { exit: true } });
+      this.sendMessage({ terminal: { exit: true, id: id } });
     };
   };
   sendDocument(e?: vscode.TextEditor, session?: WebSocket) {
@@ -172,4 +178,4 @@ export function activate({
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
