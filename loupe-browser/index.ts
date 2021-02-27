@@ -97,13 +97,23 @@ class Application {
       readOnly: true,
       scrollbarStyle: "null",
     });
-
-    this.hideCodeMirror();
   }
 
-  _hideElement = (e: HTMLElement | null) => e?.classList.add("hidden");
-  _showElement = (e: HTMLElement | null) => e?.classList.remove("hidden");
-  _toggleElement = (e: HTMLElement | null) => e?.classList.toggle("hidden");
+  _removeClass = (e: Element | null, className: string) => {
+    e?.classList.remove(className);
+  };
+  _addClass = (e: Element | null, className: string) => {
+    e?.classList.add(className);
+  };
+  _toggleHidden = (e: Element | null, hide?: boolean) => {
+    e?.classList.toggle("hidden");
+  };
+  _hide = (e: Element | null) => {
+    e?.classList.add("hidden");
+  };
+  _show = (e: Element | null) => {
+    e?.classList.remove("hidden");
+  };
   get editorElement() {
     return this.editor.getWrapperElement();
   }
@@ -113,21 +123,35 @@ class Application {
   get terminalElement() {
     return this.terminal.element || null;
   }
-  hideCodeMirror = () => this._hideElement(this.editorElement);
-  showCodeMirror = () => this._showElement(this.editorElement);
-  toggleCodeMirror = () => this._toggleElement(this.editorElement);
-
-  hideLoading = () => this._hideElement(this.loadingElement);
-  showLoading() {
-    this.hideCodeMirror();
-    this.hideTerminal();
-    this._showElement(this.loadingElement);
+  get containerElement() {
+    return document.querySelector(".container");
   }
-
-  toggleTerminal = () => this._toggleElement(this.terminalElement);
-  hideTerminal = () => this._hideElement(this.terminalElement);
-  showTerminal = () => this._showElement(this.terminalElement);
-
+  fullscreenMode = () => {
+    this._addClass(this.containerElement, "fullscreen");
+    this._removeClass(this.containerElement, "resizeContainer");
+  };
+  resizeMode = () => {
+    this._removeClass(this.containerElement, "fullscreen");
+    this._addClass(this.containerElement, "resizeContainer");
+  };
+  showCodeMirror = () => {
+    this._hide(this.loadingElement);
+    this._show(this.editorElement);
+    this._hide(this.terminalElement);
+    this.fullscreenMode();
+  };
+  showTerminal = () => {
+    this._hide(this.loadingElement);
+    this._hide(this.editorElement);
+    this._show(this.terminalElement);
+    this.resizeMode();
+  };
+  showLoading = () => {
+    this._hide(this.editorElement);
+    this._hide(this.terminalElement);
+    this._show(this.loadingElement);
+    this.resizeMode();
+  };
   connect() {
     console.log("Attempting to connect to localhost:21456");
     this.websocket = new WebSocket("ws://localhost:21456/ws");
@@ -186,12 +210,10 @@ class Application {
       if (event.terminal.exit) this.terminal.clear();
       if (event.terminal.stdin) {
         this.showTerminal();
-        this.hideCodeMirror();
       }
     }
     if (event.selections && event.selections.length > 0) {
       this.showCodeMirror();
-      this.hideTerminal();
       // ignore multi-cursor edits for now
       const s = event.selections[0];
       const lineHeight = 5;
@@ -248,8 +270,6 @@ class Application {
     console.log("ws error", e);
   };
   onopen() {
-    this.hideLoading();
-    this.showTerminal();
     console.log("websocket connected!");
   }
 }

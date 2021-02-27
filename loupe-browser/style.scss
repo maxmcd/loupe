@@ -26,6 +26,12 @@ body {
     "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
   overflow: hidden;
+
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 $background: #1e1e1e;
@@ -33,12 +39,21 @@ $margin-top: 50px;
 .container {
   font-family: "Roboto Mono", monospace;
   background: $background;
-  height: calc(100% - #{$margin-top * 2} - #{10px * 2});
-  width: auto;
   margin: $margin-top 80px;
-  padding: 0px 10px 0px 15px;
+  padding: 0px 15px 0px 15px;
   border-radius: 10px;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  transition: width 2s;
+  &.fullscreen {
+    width: 100vw;
+    height: calc(100% - #{$margin-top * 2} - #{10px * 2});
+  }
+  &.resizeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+  }
 }
 
 #terminal {
